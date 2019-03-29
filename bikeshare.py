@@ -192,25 +192,28 @@ def user_stats(df):
 
     # TO DO: Display counts of gender
     try:
+        get_gender_count = df['Gender'].value_counts()
         print('Reported genders counts are the following:')
-        print(df['Gender'].value_counts())
+        print(get_gender_count)
         unreported_gender = df['Gender'].isnull().sum()
-        print('<<<< >>>>')
+        print('<<<< ---------- >>>>')
         print('There are {} that are not reported'.format(unreported_gender))
+    except KeyError:
+        print('Gender information not available')
 
-        # TO DO: Display earliest, most recent, and most common year of birth
+    # TO DO: Display earliest, most recent, and most common year of birth
+    try:
         oldest_rider = int(df['Birth Year'].min())
         youngest_rider = int(df['Birth Year'].max())
         most_common_birth_year = int(df['Birth Year'].mode())
 
-
         print('The oldest rider was born in {}, the youngest in {} and the most common year of birth amongst riders is'
               ' {}'.format(oldest_rider, youngest_rider, most_common_birth_year))
-
-        print("\nThis took %s seconds." % (time.time() - start_time))
-        print('-'*40)
     except KeyError:
-        print('Key not exist in dataframe')
+        print('Birth year information not available')
+
+    print("\nThis took %s seconds." % (time.time() - start_time))
+    print('-' * 40)
 
 
 def show_raw_data(df):
