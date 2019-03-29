@@ -191,22 +191,45 @@ def user_stats(df):
     print(df['User Type'].value_counts())
 
     # TO DO: Display counts of gender
-    print('Reported genders counts are the following:')
-    print(df['Gender'].value_counts())
-    unreported_gender = df['Gender'].isnull().sum()
-    print('<<<< >>>>')
-    print('There are {} that are not reported'.format(unreported_gender))
+    try:
+        print('Reported genders counts are the following:')
+        print(df['Gender'].value_counts())
+        unreported_gender = df['Gender'].isnull().sum()
+        print('<<<< >>>>')
+        print('There are {} that are not reported'.format(unreported_gender))
 
-    # TO DO: Display earliest, most recent, and most common year of birth
-    oldest_rider = int(df['Birth Year'].min())
-    youngest_rider = int(df['Birth Year'].max())
-    most_common_birth_year = int(df['Birth Year'].mode())
+        # TO DO: Display earliest, most recent, and most common year of birth
+        oldest_rider = int(df['Birth Year'].min())
+        youngest_rider = int(df['Birth Year'].max())
+        most_common_birth_year = int(df['Birth Year'].mode())
 
-    print('The oldest rider was born in {}, the youngest in {} and the most common year of birth amongst riders is'
-          ' {}'.format(oldest_rider, youngest_rider, most_common_birth_year))
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
+        print('The oldest rider was born in {}, the youngest in {} and the most common year of birth amongst riders is'
+              ' {}'.format(oldest_rider, youngest_rider, most_common_birth_year))
+
+        print("\nThis took %s seconds." % (time.time() - start_time))
+        print('-'*40)
+    except KeyError:
+        print('Key not exist in dataframe')
+
+
+def show_raw_data(df):
+    raw_data_view = input('Would you like to see the raw data? (y or n)')
+    raw_data_view.lower().strip()
+    row_count = 0
+    range_set = 5
+    if raw_data_view == 'y' or 'yes':
+        while True:
+            for row in range(range_set):
+                print(df.iloc[row])
+                print('<<<<< ---------------------------------------- >>>>>')
+
+            print_more = input('Would you like to view more raw data? (y or n)')
+            if print_more == 'y':
+                row_count += 5
+                range_set += 5
+            else:
+                break
 
 
 def main():
@@ -218,6 +241,7 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
+        show_raw_data(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
